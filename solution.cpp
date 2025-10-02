@@ -10,11 +10,14 @@ double averageGPA(const double gpas[], int size);
 
 // TODO: implement addStudent
 void addStudent(char* name, double gpa, char* names[], double gpas[], int& size, int capacity) {
-    if (capacity < size)
-		throw ("List full");
-	names[size] = name;
-	gpas[size] = gpa;
-	size++;
+    if (size >= capacity) {
+        throw "List full";
+    }
+    names[size] = new char[strlen(name) + 1];
+    strcpy(names[size], name);
+
+    gpas[size] = gpa;
+    size++;
 }
 
 // TODO: implement updateGPA
@@ -31,18 +34,14 @@ void printStudent(const char* name, const double& gpa) {
 
 // TODO: implement averageGPA
 double averageGPA(const double gpas[], int size) {
-    double avg = 0;
+    double sum = 0;
     if (size <= 0 || gpas == nullptr) {
         throw "No students";
     }
     for (int i = 0; i < size; i++) {
-        avg += gpas[i];
+        sum += gpas[i];
     }
-
-    avg /= size;
-
-    return static_cast<int>(avg);
-}
+    return sum / size;
 
 
 int main(int argc, char* argv[]) {
@@ -80,8 +79,8 @@ int main(int argc, char* argv[]) {
                 try {
                     addStudent(sp, gpa, names, gpas, size, capacity);
                 } catch (const char* msg) {
-                        std::cout << msg << std::endl;
-		        }
+                    std::cout << msg << std::endl;
+                }
                 break;
             }
             case 2: {
@@ -89,7 +88,7 @@ int main(int argc, char* argv[]) {
                 int idx;
                 double newGpa;
 
-                std::cout << "Enter student index " << size - 1;
+                std::cout << "Enter student index (0–" << size - 1 << "): ";
                 std::cin >> idx;
 
                 if (idx < size && idx >= 0) {
@@ -112,7 +111,7 @@ int main(int argc, char* argv[]) {
                 // TODO: implement menu logic
                 try {
                     double avg = averageGPA(gpas, size);
-                    std::cout << "Average GPA: " << avg;
+                    std::cout << "Average GPA: " << avg << std::endl;
                 } catch (const char* msg) {
                     std::cout << msg << std::endl;
                 }
