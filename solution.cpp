@@ -42,7 +42,7 @@ double averageGPA(const double gpas[], int size) {
         sum += gpas[i];
     }
     return sum / size;
-
+}
 
 int main(int argc, char* argv[]) {
     if (argc < 2) {
